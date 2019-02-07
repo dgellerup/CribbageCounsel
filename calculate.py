@@ -74,32 +74,39 @@ def runs(hand):
     print()
     print("\nRUNS\n")
     print(hand.cards)
+    print(hand.card_order)
 
     run_value = 0
 
     if hand.card_order[2] == hand.card_order[1]+1 \
-    and hand.card_order[1] == hand.card_order[0]+1:
+        and hand.card_order[1] == hand.card_order[0]+1:
+
         run_value = 3
+
         if hand.card_order[3] == hand.card_order[2]+1:
             run_value = 4
 
-    if hand.card_order[3] == hand.card_order[2]+1 \
-    and hand.card_order[2] == hand.card_order[1]+1:
+    elif hand.card_order[3] == hand.card_order[2]+1 \
+        and hand.card_order[2] == hand.card_order[1]+1:
+
         run_value = 3
 
-    if hand.card_order[0] == hand.card_order[0] \
-    and hand.card_order[0]+1 == hand.card_order[1] \
-    and hand.card_order[1]+1 == hand.card_order[2]:
+    if hand.card_order[0] == hand.card_order[1] \
+        and hand.card_order[1]+1 == hand.card_order[2] \
+        and hand.card_order[2]+1 == hand.card_order[3]:
+
         run_value = 6
 
     if hand.card_order[0]+1 == hand.card_order[1] \
-    and hand.card_order[1] == hand.card_order[2] \
-    and hand.card_order[2]+1 == hand.card_order[3]:
+        and hand.card_order[1] == hand.card_order[2] \
+        and hand.card_order[2]+1 == hand.card_order[3]:
+
         run_value = 6
 
     if hand.card_order[0]+1 == hand.card_order[1] \
-    and hand.card_order[1]+1 == hand.card_order[2] \
-    and hand.card_order[2] == hand.card_order[3]:
+        and hand.card_order[1]+1 == hand.card_order[2] \
+        and hand.card_order[2] == hand.card_order[3]:
+
         run_value = 6
 
     print(f"Run Value: {run_value}")
