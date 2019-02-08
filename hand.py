@@ -9,10 +9,8 @@ class Hand:
                 '9': 9, '10': 10, 'J': 11, 'Q': 12, 'K': 13}
 
 
-    def __init__(self, card_string):
+    def __init__(self, card_list):
 
-        card_string = card_string.replace(", ", ",").replace(" ", ",")
-
-        self.cards = [card.split("-")[0] for card in card_string.split(",") if card.split("-")[0] in Hand.card_dict.keys()]
-        self.suits = [card.split("-")[-1] for card in card_string.split(",") if card.split("-")[-1] in ["D", "C", "S", "H"]]
+        self.cards = [card.split("-")[0] for card in card_list if card.split("-")[0] in Hand.card_dict.keys()]
+        self.suits = [card.split("-")[-1] for card in card_list if card.split("-")[-1] in ["D", "C", "S", "H"]]
         self.score = 0
