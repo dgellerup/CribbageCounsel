@@ -32,9 +32,6 @@ def fifteens(hand):
     print("\nFIFTEENS\n")
     hand.card_values = [hand.card_dict[card] for card in hand.cards]
 
-    if sum(hand.card_values) == 15:
-        hand.score += 2
-
     for i in range(2, len(hand.card_values)+1):
         print(f"Combination Size: {i}")
         for combo in combinations(hand.card_values, i):
