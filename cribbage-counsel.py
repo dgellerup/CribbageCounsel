@@ -14,7 +14,7 @@ def check_input(deal):
     acceptable_suits = ["D", "C", "S", "H"]
 
     clean_deal = deal.replace(", ", ",").replace(" ", ",").replace(",,", ",")
-    print(f'\n\nYour entries: {clean_deal.split(",")}')
+    print(f'\nYour entries: {clean_deal.split(",")}')
     clean_deal = [item for item in clean_deal.split(",") if item != ""]
     is_valid = True
 
@@ -42,15 +42,15 @@ def main(arglist):
         print("Exiting")
         sys.exit()
 
-    the_deck = deck.Deck()
-
     deal_list = [card for card in deal.split(",")]
 
+    the_deck = deck.Deck()
     the_deck.deal_cards(deal_list)
+    the_deck.get_stats()
 
     score_dict = {}
 
-    for combo in combinations(deal.split(","), 4):
+    for combo in combinations(deal_list, 4):
         player_hand = hand.Hand(combo)
 
         calculate.score_hand(player_hand)

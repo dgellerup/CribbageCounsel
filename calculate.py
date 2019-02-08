@@ -2,7 +2,7 @@ from itertools import combinations
 
 def multiples(hand):
 
-    print("\nMULTIPLES\n")
+    #print("\nMULTIPLES\n")
 
     uniques = set(hand.cards)
 
@@ -12,41 +12,41 @@ def multiples(hand):
         hand.counts_dict[card] = hand.cards.count(card)
 
     for key in hand.counts_dict:
-        print(f"Card Value {key}: {hand.counts_dict[key]}")
+        #print(f"Card Value {key}: {hand.counts_dict[key]}")
         if hand.counts_dict[key] == 2:
             hand.score += 2
-            print("Worth: 2")
+            #print("Worth: 2")
         elif hand.counts_dict[key] == 3:
             hand.score += 6
-            print("Worth: 6")
+            #print("Worth: 6")
         elif hand.counts_dict[key] == 4:
             hand.score += 12
-            print("Worth: 12")
-        else:
-            print("Worth: 0")
-        print(f"Score: {hand.score}\n")
+            #print("Worth: 12")
+        #else:
+            #print("Worth: 0")
+        #print(f"Score: {hand.score}\n")
 
 
 def fifteens(hand):
 
-    print("\nFIFTEENS\n")
+    #print("\nFIFTEENS\n")
     hand.card_values = [hand.card_dict[card] for card in hand.cards]
 
     for i in range(2, len(hand.card_values)+1):
-        print(f"Combination Size: {i}")
+        #print(f"Combination Size: {i}")
         for combo in combinations(hand.card_values, i):
             if sum(combo) == 15:
                 hand.score += 2
 
-            print(f"Combo: {combo}  Score: {hand.score}")
-        print()
+            #print(f"Combo: {combo}  Score: {hand.score}")
+        #print()
 
     return hand.score
 
 
 def suits(hand):
 
-    print(hand.suits)
+    #print(hand.suits)
 
     uniques = set(hand.suits)
 
@@ -55,23 +55,23 @@ def suits(hand):
     for card in uniques:
         hand.suits_dict[card] = hand.suits.count(card)
 
-    print(hand.suits_dict)
+    #print(hand.suits_dict)
 
     for key in hand.suits_dict:
         if hand.suits_dict[key] > 3:
             hand.score += hand.suits_dict[key]
-            print(f"Worth: {hand.suits_dict[key]}")
-            print(f"Score: {hand.score}")
+            #print(f"Worth: {hand.suits_dict[key]}")
+            #print(f"Score: {hand.score}")
 
 
 def runs(hand):
 
     hand.card_order = [hand.card_order[card] for card in hand.cards]
     hand.card_order.sort()
-    print()
-    print("\nRUNS\n")
-    print(hand.cards)
-    print(hand.card_order)
+    #print()
+    #print("\nRUNS\n")
+    #print(hand.cards)
+    #print(hand.card_order)
 
     run_value = 0
 
@@ -106,11 +106,11 @@ def runs(hand):
 
         run_value = 6
 
-    print(f"Run Value: {run_value}")
+    #print(f"Run Value: {run_value}")
 
     hand.score += run_value
 
-    print(f"Score: {hand.score}\n")
+    #print(f"Score: {hand.score}\n")
 
 
 
