@@ -63,7 +63,10 @@ def main(arglist):
 
     score_df.sort_values("Score", ascending=False, inplace=True)
 
+    new_df = calculate.potential_runs(score_df, the_deck)
+
     print(score_df)
+    print(new_df)
 
 
 if __name__ == "__main__":

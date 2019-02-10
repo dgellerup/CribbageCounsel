@@ -1,5 +1,8 @@
 from itertools import combinations
 
+import hand
+import deck
+
 def multiples(hand):
 
     #print("\nMULTIPLES\n")
@@ -66,8 +69,8 @@ def suits(hand):
 
 def runs(hand):
 
-    hand.card_order = [hand.card_order[card] for card in hand.cards]
-    hand.card_order.sort()
+    hand.ordered_cards = [hand.card_order[card] for card in hand.cards]
+    hand.ordered_cards.sort()
     #print()
     #print("\nRUNS\n")
     #print(hand.cards)
@@ -75,34 +78,34 @@ def runs(hand):
 
     run_value = 0
 
-    if hand.card_order[2] == hand.card_order[1]+1 \
-        and hand.card_order[1] == hand.card_order[0]+1:
+    if hand.ordered_cards[2] == hand.ordered_cards[1]+1 \
+        and hand.ordered_cards[1] == hand.ordered_cards[0]+1:
 
         run_value = 3
 
-        if hand.card_order[3] == hand.card_order[2]+1:
+        if hand.ordered_cards[3] == hand.ordered_cards[2]+1:
             run_value = 4
 
-    elif hand.card_order[3] == hand.card_order[2]+1 \
-        and hand.card_order[2] == hand.card_order[1]+1:
+    elif hand.ordered_cards[3] == hand.ordered_cards[2]+1 \
+        and hand.ordered_cards[2] == hand.ordered_cards[1]+1:
 
         run_value = 3
 
-    if hand.card_order[0] == hand.card_order[1] \
-        and hand.card_order[1]+1 == hand.card_order[2] \
-        and hand.card_order[2]+1 == hand.card_order[3]:
+    if hand.ordered_cards[0] == hand.ordered_cards[1] \
+        and hand.ordered_cards[1]+1 == hand.ordered_cards[2] \
+        and hand.ordered_cards[2]+1 == hand.ordered_cards[3]:
 
         run_value = 6
 
-    if hand.card_order[0]+1 == hand.card_order[1] \
-        and hand.card_order[1] == hand.card_order[2] \
-        and hand.card_order[2]+1 == hand.card_order[3]:
+    if hand.ordered_cards[0]+1 == hand.ordered_cards[1] \
+        and hand.ordered_cards[1] == hand.ordered_cards[2] \
+        and hand.ordered_cards[2]+1 == hand.ordered_cards[3]:
 
         run_value = 6
 
-    if hand.card_order[0]+1 == hand.card_order[1] \
-        and hand.card_order[1]+1 == hand.card_order[2] \
-        and hand.card_order[2] == hand.card_order[3]:
+    if hand.ordered_cards[0]+1 == hand.ordered_cards[1] \
+        and hand.ordered_cards[1]+1 == hand.ordered_cards[2] \
+        and hand.ordered_cards[2] == hand.ordered_cards[3]:
 
         run_value = 6
 
@@ -113,10 +116,45 @@ def runs(hand):
     #print(f"Score: {hand.score}\n")
 
 
-
 def score_hand(hand):
 
     multiples(hand)
     fifteens(hand)
     suits(hand)
     runs(hand)
+
+
+def run_card(combination, the_deck):
+
+    likelihood = 0
+
+    ordered_cards = [hand.Hand.card_order[card.split("-")[0]] for card in combination]
+    ordered_cards.sort()
+    print(f"ordered_cards: {ordered_cards}")
+
+    cards_needed = []
+
+    if ordered_cards[0] == ordered_cards[2]-2:
+        cards_needed.append(ordered_cards[0]+1)
+    if ordered_cards[1] == ordered_cards[3]-2:
+        cards_needed.append(ordered_cards[1]+1)
+
+    cards_in_deck = sum([int(the_deck.values[key]) for key in the_deck.values])
+
+    cards_needed = [card.split("-")[0] for card in cards_needed if card.split("-")[0] in hand.Hand.card_dict.keys()]
+
+    num_possible_cards = 0
+
+    for card in cards_needed:
+        num_possible_cards += the_deck.values[card]
+
+    likelihood = num_possible_cards/cards_in_deck
+
+    return likelihood
+
+
+def potential_runs(df, the_deck):
+
+    df['For Run'] = df['Combination'].apply(run_card, the_deck=the_deck)
+
+    return df
