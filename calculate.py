@@ -198,6 +198,6 @@ def potential_runs(df, the_deck):
 
     print(the_deck.values)
 
-    df['For Run'] = df['Combination'].apply(run_card, the_deck=the_deck)
+    df['Run Chance'] = df['Combination'].apply(run_card, the_deck=the_deck)
 
     return df
