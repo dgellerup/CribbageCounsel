@@ -49,8 +49,19 @@ def main(arglist):
         print("Exiting")
         sys.exit()
 
-    deal_list = [card for card in deal.split(",")]
+    crib = None
 
+    while crib == None:
+        crib = input("\nDo you have the crib? (y/n)\n")
+        if crib.upper() == "Y" or crib.upper() == "YES":
+            crib = True
+        elif crib.upper() == "N" or crib.upper() == "NO":
+            crib = False
+        else:
+            crib = None
+
+
+    deal_list = [card for card in deal.split(",")]
     the_deck = deck.Deck()
     the_deck.deal_cards(deal_list)
     the_deck.get_stats()
@@ -75,6 +86,8 @@ def main(arglist):
     calculate.flip_five(score_df, the_deck)
 
     calculate.flip_ten(score_df, the_deck)
+
+    calculate.populate_cribs(score_df, deal_list)
 
     print()
     print(score_df)
