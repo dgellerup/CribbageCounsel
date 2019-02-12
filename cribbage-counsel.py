@@ -35,7 +35,14 @@ def check_input(deal):
 
 def main(arglist):
 
-    deal = ",".join(arglist)
+    if len(arglist) > 0:
+        deal = ",".join(arglist)
+    else:
+        deal = input("\nEnter cards (value-suit initial, eg. J-D):\n")
+        deal = deal.replace(" ", ",")
+        deal = deal.replace(",,", ",")
+        deal = ",".join(deal.split(","))
+
     deal = deal.upper()
 
     if check_input(deal) != True:
