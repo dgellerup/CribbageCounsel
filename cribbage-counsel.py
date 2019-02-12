@@ -72,6 +72,11 @@ def main(arglist):
 
     calculate.potential_runs(score_df, the_deck)
 
+    calculate.flip_five(score_df, the_deck)
+
+    calculate.flip_ten(score_df, the_deck)
+
+    print()
     print(score_df)
 
 

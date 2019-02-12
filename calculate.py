@@ -152,7 +152,6 @@ def find_run(ordered_cards):
     temp_ordered = set(ordered_cards)
 
     needed = needed - temp_ordered
-    print(f"Final needed: {needed}")
 
     translated_needed = []
 
@@ -160,7 +159,6 @@ def find_run(ordered_cards):
         for key, value in hand.Hand.card_order.items():
             if value == card:
                 translated_needed.append(key)
-    print(translated_needed)
     return translated_needed
 
 
@@ -170,25 +168,19 @@ def run_card(combination, the_deck):
 
     ordered_cards = [hand.Hand.card_order[card.split("-")[0]] for card in combination]
     ordered_cards.sort()
-    print(f"ordered_cards: {ordered_cards}")
 
     if can_run(ordered_cards):
         cards_needed = find_run(ordered_cards)
     else:
-        print("return 0")
         return 0
 
-    cards_in_deck = sum([int(the_deck.values[key]) for key in the_deck.values])
+    cards_in_deck = len(the_deck.card_list)
 
     num_possible_cards = 0
 
     for card in cards_needed:
-        print(card, type(card))
-        print(the_deck.values[card])
         num_possible_cards += the_deck.values[card]
 
-    print(num_possible_cards)
-    print(f"Likelihood: {num_possible_cards}/{cards_in_deck}={num_possible_cards/cards_in_deck}")
     likelihood = num_possible_cards/cards_in_deck
 
     return f"{round(likelihood*100, 1)}%"
@@ -196,8 +188,28 @@ def run_card(combination, the_deck):
 
 def potential_runs(df, the_deck):
 
-    print(the_deck.values)
+    df['Run Chance'] = df['Combination'].apply(run_card, the_deck=the_deck)
 
-    df['For Run'] = df['Combination'].apply(run_card, the_deck=the_deck)
 
-    return df
+def flip_five(df, the_deck):
+
+    cards_in_deck = len(the_deck.card_list)
+    print(cards_in_deck)
+    fives_left = the_deck.values['5']
+    print(fives_left)
+
+    df['5 Chance'] = f"{round(fives_left/cards_in_deck*100, 1)}%"
+
+
+def flip_ten(df, the_deck):
+
+    cards_in_deck = len(the_deck.card_list)
+    print(cards_in_deck)
+    worth_ten = ['10', 'J', 'Q', 'K']
+    tens_left = 0
+
+    for key, value in the_deck.values.items():
+        if key in worth_ten:
+            tens_left += value
+
+    df['10 Chance'] = f"{round(tens_left/cards_in_deck*100, 1)}%"
