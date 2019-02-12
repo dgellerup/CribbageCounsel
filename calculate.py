@@ -218,7 +218,6 @@ def flip_ten(df, the_deck):
 
 
 def crib_cards(combination, deal_list):
-
     crib_list = list(set(deal_list) - set(combination))
 
     return crib_list
@@ -228,7 +227,7 @@ def score_crib(crib_hand):
 
     multiples(crib_hand)
     fifteens(crib_hand)
-    
+
 
 def crib_score(crib_list):
 
@@ -244,3 +243,24 @@ def populate_cribs(df, deal_list):
     df['Crib'] = df['Combination'].apply(crib_cards, deal_list=deal_list)
 
     df['Crib Value'] = df['Crib'].apply(crib_score)
+
+
+def add_scores(row):
+
+    print(f'row: {row}')
+    print(row['Score'])
+    print(row['Crib Value'])
+    total_score = row['Score'] + row['Crib Value']
+    print(f"total_score: {total_score}")
+
+    return total_score
+
+
+def recommend_hand(df, crib):
+
+    df['Total Score'] = df.apply(add_scores, axis=1)
+
+    if crib:
+        df.sort_values('Total Score', ascending=False, inplace=True)
+    else:
+        df.sort_values('Score', ascending=False, inplace=True)

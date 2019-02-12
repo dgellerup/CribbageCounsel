@@ -89,8 +89,12 @@ def main(arglist):
 
     calculate.populate_cribs(score_df, deal_list)
 
+    calculate.recommend_hand(score_df, crib)
+
     print()
     print(score_df)
+    print()
+    print(f"Optimal hand: {score_df.iloc[0]['Combination']}\n")
 
 
 if __name__ == "__main__":
