@@ -174,7 +174,7 @@ def run_card(combination, the_deck):
     else:
         return 0
 
-    cards_in_deck = sum([int(the_deck.values[key]) for key in the_deck.values])
+    cards_in_deck = len(the_deck.card_list)
 
     num_possible_cards = 0
 
@@ -190,4 +190,26 @@ def potential_runs(df, the_deck):
 
     df['Run Chance'] = df['Combination'].apply(run_card, the_deck=the_deck)
 
-    return df
+
+def flip_five(df, the_deck):
+
+    cards_in_deck = len(the_deck.card_list)
+    print(cards_in_deck)
+    fives_left = the_deck.values['5']
+    print(fives_left)
+
+    df['5 Chance'] = f"{round(fives_left/cards_in_deck*100, 1)}%"
+
+
+def flip_ten(df, the_deck):
+
+    cards_in_deck = len(the_deck.card_list)
+    print(cards_in_deck)
+    worth_ten = ['10', 'J', 'Q', 'K']
+    tens_left = 0
+
+    for key, value in the_deck.values.items():
+        if key in worth_ten:
+            tens_left += value
+
+    df['10 Chance'] = f"{round(tens_left/cards_in_deck*100, 1)}%"
