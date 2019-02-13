@@ -19,6 +19,9 @@ def check_input(deal):
     is_valid = True
 
     for item in clean_deal:
+        if clean_deal.count(item) > 1:
+            print(f"\nCan't have duplicate cards. ({item})\n")
+            return False
         if "-" not in item:
             print(f"Invalid Format: {item}")
             is_valid = False
@@ -46,7 +49,7 @@ def main(arglist):
     deal = deal.upper()
 
     if check_input(deal) != True:
-        print("Exiting")
+        print("Exiting.\n")
         sys.exit()
 
     crib = None
