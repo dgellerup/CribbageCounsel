@@ -194,9 +194,11 @@ def potential_runs(df, the_deck):
 def flip_five(df, the_deck):
 
     cards_in_deck = len(the_deck.card_list)
-    print(cards_in_deck)
-    fives_left = the_deck.values['5']
-    print(fives_left)
+
+    try:
+        fives_left = the_deck.values['5']
+    except KeyError:
+        fives_left = 0
 
     df['5 Chance'] = f"{round(fives_left/cards_in_deck*100, 1)}%"
 
@@ -204,7 +206,7 @@ def flip_five(df, the_deck):
 def flip_ten(df, the_deck):
 
     cards_in_deck = len(the_deck.card_list)
-    print(cards_in_deck)
+
     worth_ten = ['10', 'J', 'Q', 'K']
     tens_left = 0
 
@@ -213,3 +215,52 @@ def flip_ten(df, the_deck):
             tens_left += value
 
     df['10 Chance'] = f"{round(tens_left/cards_in_deck*100, 1)}%"
+
+
+def crib_cards(combination, deal_list):
+    crib_list = list(set(deal_list) - set(combination))
+
+    return crib_list
+
+
+def score_crib(crib_hand):
+
+    multiples(crib_hand)
+    fifteens(crib_hand)
+
+
+def crib_score(crib_list):
+
+    crib_hand = hand.Hand(crib_list)
+
+    score_crib(crib_hand)
+
+    return crib_hand.score
+
+
+def populate_cribs(df, deal_list):
+
+    df['Crib'] = df['Combination'].apply(crib_cards, deal_list=deal_list)
+
+    df['Crib Value'] = df['Crib'].apply(crib_score)
+
+
+def add_scores(row):
+
+    print(f'row: {row}')
+    print(row['Score'])
+    print(row['Crib Value'])
+    total_score = row['Score'] + row['Crib Value']
+    print(f"total_score: {total_score}")
+
+    return total_score
+
+
+def recommend_hand(df, crib):
+
+    df['Total Score'] = df.apply(add_scores, axis=1)
+
+    if crib:
+        df.sort_values('Total Score', ascending=False, inplace=True)
+    else:
+        df.sort_values('Score', ascending=False, inplace=True)
