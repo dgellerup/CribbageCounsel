@@ -1,10 +1,11 @@
+import sys
 from itertools import combinations
 
 import pandas as pd
 
-import hand
-import calculate
-import deck
+from cribbage_counsel import hand
+from cribbage_counsel import calculate
+from cribbage_counsel import deck
 
 def check_input(deal):
 
@@ -36,15 +37,13 @@ def check_input(deal):
     return is_valid
 
 
-def main(arglist):
+def calc(arglist):
 
-    if len(arglist) > 0:
-        deal = ",".join(arglist)
-    else:
-        deal = input("\nEnter cards (value-suit initial, eg. J-D):\n")
-        deal = deal.replace(" ", ",")
-        deal = deal.replace(",,", ",")
-        deal = ",".join(deal.split(","))
+
+    deal = arglist
+    deal = deal.replace(" ", ",")
+    deal = deal.replace(",,", ",")
+    deal = ",".join(deal.split(","))
 
     deal = deal.upper()
 
@@ -99,8 +98,9 @@ def main(arglist):
     print()
     print(f"Optimal hand: {score_df.iloc[0]['Combination']}\n")
 
+    return score_df.iloc[0]['Combination']
+
 
 if __name__ == "__main__":
-    import sys
 
     main(sys.argv[1:])

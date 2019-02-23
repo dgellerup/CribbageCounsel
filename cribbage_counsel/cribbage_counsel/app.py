@@ -3,33 +3,48 @@ import toga
 from toga.style import Pack
 from toga.style.pack import *
 
+from cribbage_counsel.CribbageCounsel import *
 
 class CribbageCounsel(toga.App):
     def startup(self):
         # Create a main window with a name matching the app
         self.main_window = toga.MainWindow(title=self.name)
 
-        # Create a main content box
-        #main_box = toga.Box(style=Pack(background_color='green'))
+        c_box = toga.Box(style=Pack(background_color='green', padding_top=30))
+        c_input = toga.TextInput(style=Pack(width=200))
+        c_label = toga.Label('Your hand', style=Pack(text_align=LEFT, width=70, background_color='green', padding_left=30))
+        crib_check = toga.Switch('Your crib', style=Pack(text_align=CENTER, background_color='green', padding_left=20))
 
-        box = toga.Box(style=Pack(background_color='green'))
-        box.style.padding = 40
-        box.style.update(alignment=CENTER)
-        box.style.update(direction=ROW)
+        rec_box = toga.Box(style=Pack(background_color='green'))
+        rec_box.style.padding = 40
+        rec_box.style.update(alignment=CENTER)
+        rec_box.style.update(direction=ROW)
 
-        cards = ['2D', '3D', '4D', '5D', '6D']
+        def calculate(widget):
+            best_cards = calc(str(c_input.value))
 
-        for card in cards:
-            image = toga.Image(f'../resources/{card}.png')
-            imageview = toga.ImageView(image)
-            imageview.style.update(height=120)
-            imageview.style.update(width=90)
-            box.add(imageview)
+            for card in best_cards:
+                print(card)
+                image = toga.Image(f'../resources/{card.replace("-", "")}.png')
+                imageview = toga.ImageView(image)
+                imageview.style.update(height=120)
+                imageview.style.update(width=90)
+                rec_box.add(imageview)
 
-        #main_box.add(box)
+        button = toga.Button('Calculate', on_press=calculate, style=Pack(padding_left=20))
+
+        c_box.add(c_label)
+        c_box.add(c_input)
+        c_box.add(crib_check)
+        c_box.add(button)
+
+        main_box = toga.Box(
+            children=[c_box, rec_box],
+            style=Pack(direction=COLUMN, background_color='green')
+        )
 
         # Add the content on the main window
-        self.main_window.content = box
+        self.main_window.content = main_box
 
         # Show the main window
         self.main_window.show()

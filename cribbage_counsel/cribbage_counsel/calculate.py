@@ -1,7 +1,7 @@
 from itertools import combinations
 
-import hand
-import deck
+from cribbage_counsel import hand
+from cribbage_counsel import deck
 
 def multiples(hand):
 
