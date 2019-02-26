@@ -247,11 +247,11 @@ def populate_cribs(df, deal_list):
 
 def add_scores(row):
 
-    print(f'row: {row}')
-    print(row['Score'])
-    print(row['Crib Value'])
+    #print(f'row: {row}')
+    #print(row['Score'])
+    #print(row['Crib Value'])
     total_score = row['Score'] + row['Crib Value']
-    print(f"total_score: {total_score}")
+    #print(f"total_score: {total_score}")
 
     return total_score
 

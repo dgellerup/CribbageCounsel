@@ -37,7 +37,7 @@ def check_input(deal):
     return is_valid
 
 
-def calc(arglist):
+def calc(arglist, crib):
 
 
     deal = arglist
@@ -51,8 +51,10 @@ def calc(arglist):
         print("Exiting.\n")
         sys.exit()
 
-    crib = None
+    
+    print(crib)
 
+    """
     while crib == None:
         crib = input("\nDo you have the crib? (y/n)\n")
         if crib.upper() == "Y" or crib.upper() == "YES":
@@ -61,6 +63,7 @@ def calc(arglist):
             crib = False
         else:
             crib = None
+    """
 
 
     deal_list = [card for card in deal.split(",")]
