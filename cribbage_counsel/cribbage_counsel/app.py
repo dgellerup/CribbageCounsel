@@ -6,12 +6,31 @@ from toga.style.pack import *
 from cribbage_counsel.CribbageCounsel import *
 
 class CribbageCounsel(toga.App):
+
+    def calculate(self, widget):
+
+
+        crib = True if self.crib_check.is_on else False
+        best_cards = calc(str(self.c_input.value), crib)
+
+        for card in best_cards:
+            print(card)
+            image = toga.Image(f'../resources/{card.replace("-", "")}.png')
+            imageview = toga.ImageView(image, style=Pack(height=120, width=90))
+            self.rec_box.add(imageview)
+
+        self.rec_box.style.update(padding_top=10)
+        self.rec_box.refresh()
+        self.main_box.refresh()
+
+
     def startup(self):
         # Create a main window with a name matching the app
         self.main_window = toga.MainWindow(title=self.name)
 
         self.c_box = toga.Box(style=Pack(background_color='green', padding_top=30))
         self.c_input = toga.TextInput(style=Pack(width=200))
+        self.c_input.value = 'a-h 2-h 3-h 4-h 5-h 6-h'
         c_label = toga.Label('Your hand', style=Pack(text_align=LEFT, width=70, background_color='green', padding_left=30))
         self.crib_check = toga.Switch('Your crib', style=Pack(text_align=CENTER, background_color='green', padding_left=20))
 
@@ -19,16 +38,6 @@ class CribbageCounsel(toga.App):
         self.rec_box.style.padding = 40
         self.rec_box.style.update(alignment=CENTER)
         self.rec_box.style.update(direction=ROW)
-
-        # best_cards = ['4-d', '5-d', '6-d', '10-d']
-        #
-        # for card in best_cards:
-        #     print(card)
-        #     image = toga.Image(f'../resources/{card.replace("-", "")}.png')
-        #     imageview = toga.ImageView(image)
-        #     imageview.style.update(height=120)
-        #     imageview.style.update(width=90)
-        #     rec_box.add(imageview)
 
         button = toga.Button('Calculate', on_press=self.calculate, style=Pack(padding_left=20))
 
@@ -47,22 +56,6 @@ class CribbageCounsel(toga.App):
 
         # Show the main window
         self.main_window.show()
-
-    def calculate(self, widget):
-        crib = True if self.crib_check.is_on else False
-        best_cards = calc(str(self.c_input.value), crib)
-
-        for card in best_cards:
-            print(card)
-            image = toga.Image(f'../resources/{card.replace("-", "")}.png')
-            imageview = toga.ImageView(image)
-            imageview.style.update(height=120)
-            imageview.style.update(width=90)
-            self.rec_box.add(imageview)
-
-        self.rec_box.refresh()
-        self.main_box.refresh()
-
 
 
 def main():
